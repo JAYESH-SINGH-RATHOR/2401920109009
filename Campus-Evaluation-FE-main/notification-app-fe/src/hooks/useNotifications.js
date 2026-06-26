@@ -1,5 +1,5 @@
 // import { useState, useEffect } from "react";
-// import { fetchNotifications } from "../apis/notifications";
+// import { fetchNotifications } from "../api/notifications";
 
 // export function useNotifications() {
 //   const [notifications, setNotifications] = useState([]);
@@ -19,8 +19,8 @@
 //   return { notifications, total, totalPages, loading: false, error: true };
 // }
 
+
 import { useEffect, useState } from "react";
-import { fetchNotifications } from "../api/notifications";
 
 export function useNotifications() {
   const [notifications, setNotifications] = useState([]);
@@ -29,23 +29,33 @@ export function useNotifications() {
   const [error, setError] = useState("");
 
   useEffect(() => {
-    async function load() {
-      try {
-        setLoading(true);
-        setError("");
+    const dummyData = [
+      {
+        id: 1,
+        title: "Campus Placement Drive",
+        message: "Placement drive will start tomorrow.",
+        type: "Placement",
+        timestamp: "Today",
+      },
+      {
+        id: 2,
+        title: "Result Declared",
+        message: "Semester result has been published.",
+        type: "Result",
+        timestamp: "Yesterday",
+      },
+      {
+        id: 3,
+        title: "Tech Event",
+        message: "Coding event registration is open.",
+        type: "Event",
+        timestamp: "2 days ago",
+      },
+    ];
 
-        const data = await fetchNotifications();
-
-        setNotifications(data.notifications || []);
-        setTotal(data.total || data.notifications?.length || 0);
-      } catch (err) {
-        setError(err.message || "Something went wrong");
-      } finally {
-        setLoading(false);
-      }
-    }
-
-    load();
+    setNotifications(dummyData);
+    setTotal(dummyData.length);
+    setLoading(false);
   }, []);
 
   return {
